@@ -1,0 +1,53 @@
+#include<pic.h>
+#define _XTAL_FREQ 20000000
+#define RS RD0
+#define RW RD1
+#define EN RD2
+void lcd_data(unsigned char data)
+{
+PORTC=data;
+RS=1;
+RW=0;
+EN=1;
+__delay_ms(5);
+EN=0;
+}
+void lcd_command(unsigned char command)
+{
+PORTC=command;
+RS=0;
+RW=0;
+EN=1;
+__delay_ms(5);
+EN=0;
+}
+void lcd_string(const unsigned char *string, unsigned char length)
+{
+unsigned char i;
+for(i=0;i<length;i++)
+{
+lcd_data(string[i]);
+}
+}
+void lcd_initialize()
+{
+lcd_command(0x38); //sets lcd in 2 rows and 16 column 
+lcd_command(0x06); // autoincrease  the cursor of lcd once the current postion is printed 
+lcd_command(0x0c); // display on cursor is off
+lcd_command(0x01); //clear all the contents initially available on lcd 
+}
+void main()
+{
+TRISC=0x00;
+TRISD=0x00;
+lcd_initialize();
+while(1)
+{
+lcd_command(0x83);  //1st row 3rd column 
+lcd_string("Abishek",7);
+
+}
+}
+
+
+
