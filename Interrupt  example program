@@ -1,0 +1,25 @@
+#include<pic.h>
+#define _XTAL_FREQ 20000000
+
+void interrupt name()
+{
+if(INTF==1)
+{
+RC0=~RC0;
+INTF=0;
+}
+}
+void main()
+{
+GIE=1;
+PEIE=1;
+INTE=1;
+INTEDG =1;
+
+
+TRISC =0x00;
+PORTC =0x00;
+while(1)
+{
+}
+}
